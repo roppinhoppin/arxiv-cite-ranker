@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="icons/icon16.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArXiv Cite Ranker</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="lucide.min.js"></script>
+    <script src="pako.min.js"></script>
+    <script src="bibtex-lib.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <div class="logo">
+          <img src="icons/icon48.png" alt="Logo" />
+          <h1>Cite Ranker</h1>
+        </div>
+        <div class="header-actions">
+          <button id="refresh-btn" class="icon-btn" title="Refresh Analysis">
+            <i data-lucide="rotate-cw"></i>
+          </button>
+          <div id="status-badge" class="badge">Detecting...</div>
+        </div>
+      </header>
+      
+      <main>
+        <div id="initial-state" class="center-content">
+          <div class="icon-container">
+            <i data-lucide="search"></i>
+          </div>
+          <p>Navigate to an ArXiv paper to start ranking.</p>
+        </div>
+
+        <div id="loading-state" class="center-content hidden">
+          <div class="loader"></div>
+          <p id="loading-text">Downloading TeX source...</p>
+        </div>
+
+        <div id="results-state" class="hidden">
+          <div class="stats-summary">
+            <div class="stat-item">
+              <span class="stat-label">Total Citations</span>
+              <span id="total-cites" class="stat-value">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Unique Keys</span>
+              <span id="unique-keys" class="stat-value">0</span>
+            </div>
+          </div>
+          
+          <div class="filter-bar">
+            <input type="text" id="search-input" placeholder="Search citations..." />
+          </div>
+
+          <ul id="citation-list">
+            <!-- Items will be injected here -->
+          </ul>
+        </div>
+
+        <div id="error-state" class="center-content hidden">
+          <div class="icon-container error">
+            <i data-lucide="alert-circle"></i>
+          </div>
+          <p id="error-message">Something went wrong.</p>
+          <button id="retry-button">Try Again</button>
+        </div>
+      </main>
+
+      <footer>
+        <span id="paper-id"></span>
+      </footer>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

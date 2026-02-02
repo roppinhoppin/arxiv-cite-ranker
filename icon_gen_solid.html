@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; background: #B31B1B;">
+  <canvas id="c128" width="128" height="128"></canvas>
+  <canvas id="c48" width="48" height="48"></canvas>
+  <canvas id="c16" width="16" height="16"></canvas>
+  <script>
+    function draw(id) {
+      const c = document.getElementById(id);
+      const ctx = c.getContext('2d');
+      const s = c.width;
+      ctx.fillStyle = '#B31B1B';
+      ctx.fillRect(0, 0, s, s);
+      ctx.fillStyle = 'white';
+      const w = s * 0.15;
+      const g = s * 0.05;
+      const x = s * 0.25;
+      ctx.fillRect(x, s * 0.6, w, s * 0.2);
+      ctx.fillRect(x + w + g, s * 0.4, w, s * 0.4);
+      ctx.fillRect(x + 2*(w + g), s * 0.2, w, s * 0.6);
+    }
+    draw('c128'); draw('c48'); draw('c16');
+  </script>
+</body>
+</html>

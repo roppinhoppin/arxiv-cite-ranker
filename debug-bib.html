@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug BibTeX Parsing</title>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 20px; background: #1a1a1a; color: #eee; }
+        pre { background: #000; padding: 10px; border-radius: 4px; overflow-x: auto; max-height: 300px;}
+        .card { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        textarea { width: 100%; height: 100px; background: #333; color: #fff; border: 1px solid #444; padding: 10px; }
+        button { background: #4f46e5; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+    </style>
+</head>
+<body>
+    <h1>Debug: Cite Ranker Metadata</h1>
+    
+    <div class="card">
+        <h3>1. Test BibTeX Parsing</h3>
+        <textarea id="bib-input">@article{test_key,
+  title = {The Impact of Artificial Intelligence},
+  author = {John Doe and Jane Smith},
+  journal = {Journal of AI Research},
+  year = {2023}
+}</textarea>
+        <button id="test-bib">Run BibTeX Test</button>
+        <div id="bib-result"></div>
+    </div>
+
+    <div class="card">
+        <h3>2. Test BBL Parsing</h3>
+        <textarea id="bbl-input">\bibitem{key2}
+{\sc Author, A.}, {\sc Author, B.}
+\newblock Title of the paper.
+\newblock {\em Venue Name}, 2022.</textarea>
+        <button id="test-bbl">Run BBL Test</button>
+        <div id="bbl-result"></div>
+    </div>
+
+    <div class="card">
+        <h3>3. Full Integration Test (Fetch ArXiv)</h3>
+        <input type="text" id="arxiv-id" placeholder="e.g. 2301.12345">
+        <button id="test-fetch">Fetch & Analyze</button>
+        <div id="fetch-log" style="font-size: 12px; color: #aaa; margin-top: 10px;"></div>
+        <div id="fetch-result"></div>
+    </div>
+
+    <script type="module" src="./debug-bib.js"></script>
+</body>
+</html>
