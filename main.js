@@ -159,11 +159,11 @@ async function extractSourceFiles(buffer) {
   if (uint8[0] === 0x1f && uint8[1] === 0x8b) {
     updateProgress('Decompressing GZIP...');
     try {
-      decompressed = window.pako.ungzip(uint8);
+      decompressed = await decompressGzip(uint8);
       console.log(`[CiteRanker] Decompressed to ${decompressed.byteLength} bytes`);
     } catch (e) {
       console.error("[CiteRanker] GZIP Decompression failed", e);
-      throw new Error('Failed to decompress the source file.');
+      throw new Error('Failed to decompress the source file. The downloaded source may be corrupted or in an unsupported gzip format.');
     }
   } else {
     decompressed = uint8;
@@ -234,6 +234,28 @@ async function extractSourceFiles(buffer) {
   }
 
   return { texFiles, bibFiles, bblFiles };
+}
+
+async function decompressGzip(uint8) {
+  const pako = window.pako;
+
+  if (pako && typeof pako.ungzip === 'function') {
+    try {
+      return pako.ungzip(uint8);
+    } catch (error) {
+      console.warn('[CiteRanker] pako failed to decompress gzip, trying native decompression.', error);
+    }
+  } else {
+    console.warn('[CiteRanker] pako is not available, trying native gzip decompression.');
+  }
+
+  if (typeof DecompressionStream === 'function') {
+    const stream = new Blob([uint8]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const buffer = await new Response(stream).arrayBuffer();
+    return new Uint8Array(buffer);
+  }
+
+  throw new Error('No gzip decompressor is available.');
 }
 
 /**
